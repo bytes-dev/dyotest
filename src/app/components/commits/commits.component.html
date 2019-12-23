@@ -1,1 +1,39 @@
-<p>commits works!</p>
+<form>
+    <div class="row">
+        <div class="col">
+            <label>Organisation name</label>
+            <input type="text" name="organisation" [(ngModel)]="organisationData.organisation" class="form-control"
+                placeholder="Organisation name">
+        </div>
+        <div class="col">
+            <label>Repository name</label>
+            <input type="text" name="repository" [(ngModel)]="organisationData.repository" class="form-control"
+                placeholder="Repository name">
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col form-group">
+            <button type="submit" (click)="getCommits(true)" class="btn btn-primary">Sign in</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let commit of commits">
+                    <div *ngFor="let message of commit.commit.message.split('\n');let i = index">
+                        <span *ngIf="i === 0">
+                            <b>{{message}}</b>
+                            <span class="hidden-text-expander inline">
+                                <button type="button" class="ellipsis-expander js-details-target"
+                                    (click)="commit.toggle = !commit.toggle">…</button>
+                            </span>
+                        </span>
+                        <span *ngIf="i > 0 && commit.toggle">
+                            {{message}}
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,22 @@
+.hidden-text-expander.inline {
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    margin-left: 5px;
+    line-height: 0;
+}
+
+.ellipsis-expander, .hidden-text-expander a {
+    display: inline-block;
+    height: 12px;
+    padding: 0 5px 5px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 6px;
+    color: #444d56;
+    text-decoration: none;
+    vertical-align: middle;
+    background: #dfe2e5;
+    border: 0;
+    border-radius: 1px;
+}

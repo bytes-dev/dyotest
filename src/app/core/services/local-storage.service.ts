@@ -19,18 +19,28 @@ export class LocalStorageService {
     };
     this.set(defaultData);
   }
-
+  
   get() {
-    this.organisations = JSON.parse(localStorage.getItem(this.key));
+    this.organisations = JSON.parse(localStorage.getItem(this.key)) || [];
   }
 
   set(data) {
-    this.organisations.push(data);
-    localStorage.setItem(this.key, JSON.stringify(this.organisations));
+    if (!this.checkForDuplicate(data)) {
+      this.organisations.push(data);
+      localStorage.setItem(this.key, JSON.stringify(this.organisations));
+    }
   }
 
   getLastOrganisation (){
     this.get();
     return this.organisations.pop();
+  }
+
+  checkForDuplicate(data) {
+    this.get();
+    const isExits = this.organisations.find((org) => {
+      return (org.organisation === data.organisation && org.repository === data.repository);
+    })
+    return isExits;
   }
 }
