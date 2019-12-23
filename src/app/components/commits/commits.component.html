@@ -1,19 +1,17 @@
 <form>
-    <div class="row">
-        <div class="col">
+    <div class="row align-end mb-2">
+        <div class="col-5">
             <label>User name</label>
             <input type="text" name="organisation" [(ngModel)]="organisationData.organisation" class="form-control"
                 placeholder="User name">
         </div>
-        <div class="col">
+        <div class="col-5">
             <label>Repository name</label>
             <input type="text" name="repository" [(ngModel)]="organisationData.repository" class="form-control"
                 placeholder="Repository name">
         </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col form-group">
-            <button type="submit" (click)="getBranches(true)" class="btn btn-primary">Submit</button>
+        <div class="col-2">
+            <button type="submit" (click)="getBranches(true)" class="btn btn-primary">Search</button>
         </div>
     </div>
     <div class="row" *ngIf="commits.length > 0 && !isLoaded">
@@ -38,14 +36,14 @@
                             <div *ngFor="let message of commit.commit.message.split('\n');let i = index">
                                 <span *ngIf="i === 0" class="comment-title">
                                     <b class="tittle-heading">{{message}}</b>
-                                    <span class="hidden-text-expander inline">
+                                    <span class="hidden-text-expander inline" *ngIf="commit.commit.message.split('\n').length > 1">
                                         <button type="button" class="ellipsis-expander js-details-target"
                                             (click)="commit.toggle = !commit.toggle">…</button>
                                     </span>
-                                    <div class="detail-person">
+                                    <div class="detail-person" *ngIf="commit.author">
                                         <div class="AvatarStack">
                                             <div class="AvatarStack-body">
-                                                <span class="avatar">
+                                                <span class="avatar" *ngIf="commit.author.login !== commit.committer.login">
                                                     <img height="20" width="20" src="{{commit.author.avatar_url}}">  
                                                 </span>        
                                                 <span class="avatar">

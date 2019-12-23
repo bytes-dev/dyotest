@@ -58,6 +58,7 @@ export class CommitsComponent implements OnInit {
 
   getBranches(isLocalStorageNeedUpdate) {
     this.isLoaded = true;
+    this.isError = false;
     this.branchsService.getAll(this.organisationData).subscribe((data) =>{
       this.branches = data;
       const masterBranchData = this.branches.find((branch) => branch.name === 'master');
