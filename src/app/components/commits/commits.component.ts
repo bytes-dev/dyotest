@@ -35,7 +35,7 @@ export class CommitsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.organisationData = this.localStorageService.getLastOrganisation();
+    this.organisationData = this.localStorageService.getDefault();
     this.getBranches(false);
   }
 

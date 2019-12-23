@@ -36,6 +36,13 @@ export class LocalStorageService {
     return this.organisations.pop();
   }
 
+  getDefault() {
+    return {
+      organisation: 'angular',
+      repository: 'angular'
+    };
+  }
+
   checkForDuplicate(data) {
     this.get();
     const isExits = this.organisations.find((org) => {
