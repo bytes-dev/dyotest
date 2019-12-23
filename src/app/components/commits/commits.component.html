@@ -1,9 +1,9 @@
 <form>
     <div class="row">
         <div class="col">
-            <label>Organisation name</label>
+            <label>User name</label>
             <input type="text" name="organisation" [(ngModel)]="organisationData.organisation" class="form-control"
-                placeholder="Organisation name">
+                placeholder="User name">
         </div>
         <div class="col">
             <label>Repository name</label>
@@ -13,34 +13,72 @@
     </div>
     <div class="row mt-2">
         <div class="col form-group">
-            <button type="submit" (click)="getBranches(true)" class="btn btn-primary">Sign in</button>
+            <button type="submit" (click)="getBranches(true)" class="btn btn-primary">Submit</button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="commits.length > 0 && !isLoaded">
         <div class="col-md-4 form-group">
+            <label>Branch</label>
             <select name="cars" class="custom-select" [(ngModel)]="filters.sha" (ngModelChange)="getCommits(false)">
-                <option value="{{ branch.commit.sha }}" *ngFor="let branch of branches">Branch: <b>{{ branch.name }}</b></option>
+                <option value="{{ branch.commit.sha }}" *ngFor="let branch of branches"><b>{{ branch.name }}</b>
+                </option>
             </select>
         </div>
     </div>
+    <div class="row" *ngIf="isLoaded">
+        <img class="display-center" src="assets/images/spinner.gif">
+    </div>
+    <div class="row" *ngIf="commits.length > 0 && !isLoaded">
+		<div class="col-md-12">
+			<ul class="timeline">
+				<li *ngFor="let key of Utils.keys(groupCommits);let i=index">
+                    <span>Commits on {{key | date:'MMMM d, y'}}</span>
+                    <ul class="list-group">
+                        <li class="list-group-item" [ngClass]="{'open': commit.toggle}" *ngFor="let commit of groupCommits[key]">
+                            <div *ngFor="let message of commit.commit.message.split('\n');let i = index">
+                                <span *ngIf="i === 0" class="comment-title">
+                                    <b class="tittle-heading">{{message}}</b>
+                                    <span class="hidden-text-expander inline">
+                                        <button type="button" class="ellipsis-expander js-details-target"
+                                            (click)="commit.toggle = !commit.toggle">…</button>
+                                    </span>
+                                    <div class="detail-person">
+                                        <div class="AvatarStack">
+                                            <div class="AvatarStack-body">
+                                                <span class="avatar">
+                                                    <img height="20" width="20" src="{{commit.author.avatar_url}}">  
+                                                </span>        
+                                                <span class="avatar">
+                                                        <img height="20" width="20" alt="@alxhub" src="{{commit.committer.avatar_url}}">
+                                                </span>  
+                                            </div>
+                                        </div>    
+                                        <span *ngIf="commit.author.login !== commit.committer.login"><span  class="commit-author" >{{commit.author.login}} </span> authored and </span>  <span class="commit-author">{{commit.committer.login}}</span>committed
+                                    </div>
+                                </span>
+                                
+                                <span *ngIf="i > 0 && commit.toggle" class="content-text">
+                                    {{message}}
+                                </span>
+                            </div>
+                            <div class="tag-over">#345150</div>
+                        </li>
+                    </ul>
+				</li>
+			</ul>
+		</div>
+    </div>
+    <div class="row" *ngIf="isError">
+        <span class="display-center">Repository Not Found</span>
+    </div>
     <div class="row">
         <div class="col-md-12">
-            <ul class="list-group">
-                <li class="list-group-item" *ngFor="let commit of commits">
-                    <div *ngFor="let message of commit.commit.message.split('\n');let i = index">
-                        <span *ngIf="i === 0">
-                            <b>{{message}}</b>
-                            <span class="hidden-text-expander inline">
-                                <button type="button" class="ellipsis-expander js-details-target"
-                                    (click)="commit.toggle = !commit.toggle">…</button>
-                            </span>
-                        </span>
-                        <span *ngIf="i > 0 && commit.toggle">
-                            {{message}}
-                        </span>
-                    </div>
-                </li>
-            </ul>
+            <div class="paginate-container" data-pjax="" data-html-cleaner-suppress-children="">
+                <div class="BtnGroup" data-test-selector="pagination">
+                    <button class="btn btn-outline BtnGroup-item" (click)="filters.page = filters.page - 1;getCommits(false) " [disabled]="filters.page === 1">Newer</button>
+                    <button class="btn btn-outline BtnGroup-item" (click)="filters.page = filters.page + 1;getCommits(false) " [disabled]="commits.length < 100">Older</button>
+                </div>
+            </div>
         </div>
     </div>
 </form>
