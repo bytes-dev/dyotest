@@ -14,7 +14,8 @@ export class CommitsService {
   getAll(filters, organisationData) {
     const params = new HttpParams()
       .set('page', filters.page)
-      .set('per_page', filters.per_page);
+      .set('per_page', filters.per_page)
+      .set('sha', filters.sha);
     return this.http.get(`${environment.GITHUB_API_URL}/${organisationData.organisation}/${organisationData.repository}/commits`, { params })
   }
 }

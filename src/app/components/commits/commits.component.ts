@@ -1,6 +1,7 @@
 import { LocalStorageService } from './../../core/services/local-storage.service';
 import { CommitsService } from './../../core/http-service/commits.service';
 import { Component, OnInit } from '@angular/core';
+import { BranchsService } from 'src/app/core/http-service';
 
 @Component({
   selector: 'app-commits',
@@ -10,9 +11,11 @@ import { Component, OnInit } from '@angular/core';
 export class CommitsComponent implements OnInit {
   filters = {
     page: 1,
-    per_page: 100
+    per_page: 100,
+    sha: '',
   }
   commits: any = [];
+  branches: any = [];
   organisationData = {
     organisation: '',
     repository: ''
@@ -21,11 +24,12 @@ export class CommitsComponent implements OnInit {
   constructor(
     private commitsService: CommitsService,
     private localStorageService: LocalStorageService,
+    private branchsService: BranchsService
   ) { }
 
   ngOnInit() {
     this.organisationData = this.localStorageService.getLastOrganisation();
-    this.getCommits(false);
+    this.getBranches(false);
   }
 
   getCommits(isLocalStorageNeedUpdate) {
@@ -34,6 +38,15 @@ export class CommitsComponent implements OnInit {
       if (isLocalStorageNeedUpdate) {
         this.localStorageService.set(this.organisationData);
       }
+    })
+  }
+
+  getBranches(isLocalStorageNeedUpdate) {
+    this.branchsService.getAll(this.organisationData).subscribe((data) =>{
+      this.branches = data;
+      const masterBranchData = this.branches.find((branch) => branch.name === 'master');
+      this.filters.sha = masterBranchData.commit.sha;
+      this.getCommits(isLocalStorageNeedUpdate);
     })
   }
 

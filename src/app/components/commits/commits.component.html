@@ -13,7 +13,14 @@
     </div>
     <div class="row mt-2">
         <div class="col form-group">
-            <button type="submit" (click)="getCommits(true)" class="btn btn-primary">Sign in</button>
+            <button type="submit" (click)="getBranches(true)" class="btn btn-primary">Sign in</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <select name="cars" class="custom-select" [(ngModel)]="filters.sha" (ngModelChange)="getCommits(false)">
+                <option value="{{ branch.commit.sha }}" *ngFor="let branch of branches">Branch: <b>{{ branch.name }}</b></option>
+            </select>
         </div>
     </div>
     <div class="row">
