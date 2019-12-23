@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CommitsComponent } from './commits/commits.component';
+import { CommitsComponent } from './components/commits/commits.component';
 
 const routes: Routes = [
   { path: 'commits', component: CommitsComponent },
