@@ -107,3 +107,6 @@ ul.timeline > li:before {
 .align-end{
     align-items: flex-end;
 }
+.search-width {
+    width: 100%;
+}

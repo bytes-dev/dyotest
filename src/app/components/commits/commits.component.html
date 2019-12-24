@@ -11,7 +11,7 @@
                 placeholder="Repository name">
         </div>
         <div class="col-2">
-            <button type="submit" (click)="getBranches(true)" class="btn btn-primary">Search</button>
+            <button type="submit" (click)="getBranches(true)" class="btn btn-primary search-width">Search</button>
         </div>
     </div>
     <div class="row" *ngIf="commits.length > 0 && !isLoaded">
