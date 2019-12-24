@@ -17,7 +17,7 @@
     <div class="row" *ngIf="commits.length > 0 && !isLoaded">
         <div class="col-md-4 form-group">
             <label>Branch</label>
-            <select name="cars" class="custom-select" [(ngModel)]="filters.sha" (ngModelChange)="getCommits(false)">
+            <select name="cars" class="custom-select" [(ngModel)]="filters.sha" (ngModelChange)="getCommits(false);filters.page = 1">
                 <option value="{{ branch.commit.sha }}" *ngFor="let branch of branches"><b>{{ branch.name }}</b>
                 </option>
             </select>
