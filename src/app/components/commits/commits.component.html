@@ -40,7 +40,7 @@
                                         <button type="button" class="ellipsis-expander js-details-target"
                                             (click)="commit.toggle = !commit.toggle">…</button>
                                     </span>
-                                    <div class="detail-person" *ngIf="commit.author">
+                                    <div class="detail-person" *ngIf="commit.author && commit.committer">
                                         <div class="AvatarStack">
                                             <div class="AvatarStack-body">
                                                 <span class="avatar" *ngIf="commit.author.login !== commit.committer.login">
@@ -59,7 +59,7 @@
                                     {{message}}
                                 </span>
                             </div>
-                            <div class="tag-over">#345150</div>
+                            <div class="tag-over">#{{commit.sha.substring(0,6)}}</div>
                         </li>
                     </ul>
 				</li>
